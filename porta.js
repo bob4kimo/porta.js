@@ -1,2 +1,3 @@
 function log() {
+    console
 }
