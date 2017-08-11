@@ -30,66 +30,52 @@ removeLineCommentInTargetStr(textBcoreJs);
 
 
 /**--------------------------------------------------------------------------------------
- * TODO: Remove all line-comment in target string
+ * Remove all line-comment in target string
  ---------------------------------------------------------------------------------------*/
 function removeLineCommentInTargetStr(str) {
 
     while(str.indexOf('//')!==-1){
-        str = cleanLineCommentType2(str,'//','\n');
+        str = deleteStrBtwKeywords(str,'//','\n');
     }
 
     while(str.indexOf('/*')!==-1){
-        str = cleanLineCommentType2(str,'/*','*/');
+        str = deleteStrBtwKeywords(str,'/*','*/');
     }
 
     log(str);
 }
 /**--------------------------------------------------------------------------------------
- * Delete single-line start with "//"
+ * Delete chars between key_start and key_end, all string-area will deleted without space
  ---------------------------------------------------------------------------------------*/
-function cleanLineCommentType1(str) {
-    // char starts with "//" and end with "\n" will be our delete-target
-    var keyword = '//';
-    var keyword_end = '\n';
+function deleteStrBtwKeywords(str,key_start,key_end) {
+    var keyword     = key_start;
+    var keyword_end = key_end;
     // get keyword and keyword_end's char index
     var indexFrom = str.indexOf(keyword);
     var indexTo = 0;
     var searchRange = 2500;
-    // find keyword_end's char-index starts from indexFrom
-    for( var i = indexFrom; i<searchRange; i++ ) {
-        // char matches keyword_end, save with char-index it is
-        if( str[i] === keyword_end ) {
-            // +1 means all line will be delete, not just left single empty-line
-            indexTo = i+1;
-            break;
-        }
-    }
-    return deleteCharFromIndex(str,indexFrom,indexTo);
-}
-/**--------------------------------------------------------------------------------------
- * Delete multi-line start with "/star" and end with "star/", star means "*"
- ---------------------------------------------------------------------------------------*/
-function cleanLineCommentType2(str,str_start,str_end) {
-    var keyword = str_start;
-    var keyword_end = str_end;
-    // get keyword and keyword_end's char index
-    var indexFrom = str.indexOf(keyword);
-    var indexTo = 0;
-    var searchRange = 2500;
+    // if keyword_end's string length more than 1 search-way will diff, so we need record here
     var keyword_end_length = keyword_end.length>1?keyword_end.length:0;
-    // find keyword_end's char-index starts from indexFrom
+    // find keyword_end's char-index starts from indexFrom's index
     for( var i = indexFrom; i<indexFrom+searchRange; i++ ) {
         var searchStr = '';
+        // when search-target's str-length more than 1, then we need to combine chars in loop
         if( keyword_end_length>1 ) {
+            // when we need to find '*/' in looping chars, str[i] will appear '*' only,
+            // based on keyword_end's str-length, searchStr=str[i]+str[i+1]+str[i+2]...
             for( var j=0; j<keyword_end_length; j++ ) {
                 searchStr += str[i+j];
             }
         } else {
+            // when our search-target in loop has only 1 char, then str[i] will be fine
             searchStr = str[i];
         }
         // char matches keyword_end, save with char-index it is
         if( searchStr === keyword_end ) {
             // +1 means all line will be delete, not just left single empty-line
+            // +keyword_end_length means when keyword's str-length more than 1,
+            // then we need to include them into count also, otherwise some chars
+            // will not be deleted in result
             indexTo = i+1+keyword_end_length;
             break;
         }
