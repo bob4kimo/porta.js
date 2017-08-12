@@ -26,10 +26,28 @@
 ---------------------------------------------------------------------------------------*/
 var textBcoreJs = getBcoreJsText();
 textBcoreJs = deleteAllCommentForStr(textBcoreJs);
+textBcoreJs = deleteAllEmptyLineForStr(textBcoreJs);
 showResultOnScreen( textBcoreJs );
 
 
 
+/**--------------------------------------------------------------------------------------
+ * Remove all empty-line in target string
+ ---------------------------------------------------------------------------------------*/
+function deleteAllEmptyLineForStr(str) {
+    // separate string into array by diff-line(\n), so each line will be single item
+    var arrStr = str.split('\n');
+    // remove item from array if it is an empty-line
+    for( var i=0; i<arrStr.length; i++ ) {
+        if( arrStr[i].length < 1 ) {
+            arrStr.splice(i,1);
+            // re-check same index item again, otherwise some item may miss
+            i--;
+        }
+    }
+    // re-combine array into single string
+    return arrStr.join('\n');
+}
 /**--------------------------------------------------------------------------------------
  * Remove all line-comment in target string
  ---------------------------------------------------------------------------------------*/
