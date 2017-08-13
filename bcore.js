@@ -34,7 +34,7 @@ function useFuncInputOrDefault(input,inputChildName,def) {
      * without error, ex:(new Function('return' + jsonStr+'.'+inputChildName))()
      * ----------------------------------------------------------------*/
     var jsonStr = JSON.stringify(input);
-    return isInputValid(input)&&jsonStr.indexOf(inputChildName+'":')>-1?(new Function('return' + jsonStr+'.'+inputChildName))():def;
+    return isInputValid(input)&&jsonStr.indexOf('"'+inputChildName+'":')>-1?(new Function('return' + jsonStr+'.'+inputChildName))():def;
 }
 
 function isInputBoolean(v) {
@@ -1469,11 +1469,6 @@ function Alert(title,onBtnOK,onBtnCancel,onMaskClick) {
         //----- content's height exceed dialogue height, make dialogue bigger -----//
         v1.height(t1.contentHeight()+borderDis*2+btnBorderDis*2+btnHeight);
     }
-    // var bb = new Sprite();
-    // bb.initDiv();
-    // bb.frame(borderDis,borderDis,t1.width(),safeHeight);
-    // bb.colorHex('990000');
-    // v1.addChild(bb);
 
     bg.addChild(mask);
     bg.addChild(v1);
@@ -1596,7 +1591,7 @@ function Alert(title,onBtnOK,onBtnCancel,onMaskClick) {
 /*********************************************************************
  * TipBox
  * --------------------------
- * EX: new TipBox({triDirection:0,x:spaceW,y:spaceH,w:400,h:100,triangleW:30,triangleH:20,
+ * EX: new TipBox({triDirection:0,x:100,y:100,w:400,h:100,triangleW:30,triangleH:20,
     bgColor:'009900',cornerR:10,tip:'EARTH SPOT=love愛地球',textColor:'ffffff',textSize:'25',
     isTriTopPos:true,isShadow:true,shadowDis:22,shadowAlpha:.7});
  *
@@ -1615,15 +1610,15 @@ function TipBox(v) {
     var triangleH = useFuncInputOrDefault(v,'triangleH',10);
     var bgColor = useFuncInputOrDefault(v,'bgColor','4e886f');
     var cornerR = useFuncInputOrDefault(v,'cornerR',7);
-    var tip = isInputValid(v)&&isInputValid(v.tip)?v.tip:'MESSAGE HERE';
-    var textColor = isInputValid(v)&&isInputValid(v.textColor)?v.textColor:'ffffff';
-    var textSize = isInputValid(v)&&isInputValid(v.textSize)?v.textSize:'20';
+    var tip = useFuncInputOrDefault(v,'tip','MESSAGE HERE');
+    var textColor = useFuncInputOrDefault(v,'textColor','ffffff');
+    var textSize = useFuncInputOrDefault(v,'textSize','20');
     //----- let x,y pos become tip-box's triangle top position -----//
-    var isTriTopPos = isInputValid(v)&&isInputValid(v.isTriTopPos)?v.isTriTopPos:true;
+    var isTriTopPos = useFuncInputOrDefault(v,'isTriTopPos',true);
     //----- add shadow here -----//
-    var isShadow = isInputValid(v)&&isInputValid(v.isShadow)?v.isShadow:false;
-    var shadowDis = isInputValid(v)&&isInputValid(v.shadowDis)?v.shadowDis:15;
-    var shadowAlpha = isInputValid(v)&&isInputValid(v.shadowAlpha)?v.shadowAlpha:.8;
+    var isShadow = useFuncInputOrDefault(v,'isShadow',false);
+    var shadowDis = useFuncInputOrDefault(v,'shadowDis',15);
+    var shadowAlpha = useFuncInputOrDefault(v,'shadowAlpha',.8);
     //----- room space for adding shadow on bgCorner -----//
     var shadowSpace = isInputValid(v)&&isInputValid(v.shadowDis)?v.shadowDis*2:20;
 
