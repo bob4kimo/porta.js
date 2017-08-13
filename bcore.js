@@ -1157,6 +1157,9 @@ function ListBox(v) {
  *********************************************************************/
 function ScrollView(v) {
 
+    /**----------------------------------------------------------------
+     * Public func for ScrollView, u can edit ScrollView from outside
+     * ----------------------------------------------------------------*/
     //----- clean all cell and reset scroll-bar -----//
     this.cleanAllCell = function() {
         resetScrollView();
@@ -1173,29 +1176,25 @@ function ScrollView(v) {
         });
     };
 
-    var xx = 0;
-    var yy = 0;
-    var ww = 300;
-    var hh = 300;
+
+
+    var xx = useFuncInputOrDefault(v,'x',0);
+    var yy = useFuncInputOrDefault(v,'y',0);
+    var ww = useFuncInputOrDefault(v,'w',300);
+    var hh = useFuncInputOrDefault(v,'h',300);
+    // color-style white or black for scroll-bar
+    var isBarColorWhite = useFuncInputOrDefault(v,'isBarWhite',false);
+    var bgColor = useFuncInputOrDefault(v,'bgColor',null);
+
     var contentH = 0;               // make scroll-bar appear only when contentH>hh
     var barWidthMin = 10;           // scroll-bar's width when normal
     var barWidthMax = 18;           // scroll-bar's width when mouse-over
-    var isBarColorWhite = false;    // color-style white or black for scroll-bar
-    var barAlpha = .4;
-    var barAniSpeed = .15;
-    var barAutoHideTime = 3000;     // 3 sec
+    var barAlpha = .4;              // scroll-bar's alpha when it appeared
+    var barAniSpeed = .15;          // scroll-bar may fade-out disappear, fade ani-speed
+    var barAutoHideTime = 3000;     // 3 sec without user's action bar will auto-hide
 
 
-    initVar();
 
-
-    function initVar() {
-        xx = isInputValid(v)&&isInputValid(v.x)?v.x:xx;
-        yy = isInputValid(v)&&isInputValid(v.y)?v.y:yy;
-        ww = isInputValid(v)&&isInputValid(v.w)?v.w:ww;
-        hh = isInputValid(v)&&isInputValid(v.h)?v.h:hh;
-        isBarColorWhite = isInputValid(v)&&isInputValid(v.isBarWhite)?v.isBarWhite:isBarColorWhite;
-    }
 
     //----- if cell exist, remove all cell and reset scroll-bar -----//
     function resetScrollView() {
@@ -1232,8 +1231,8 @@ function ScrollView(v) {
 
     var bgRoot = new Sprite();
     bgRoot.initDiv();
-    if( isInputValid(v)&&isInputValid(v.bgColor) ) {
-        bgRoot.colorHex(v.bgColor);
+    if( bgColor ) {
+        bgRoot.colorHex(bgColor);
     }
     bgRoot.frame(xx,yy,ww,hh);
 
