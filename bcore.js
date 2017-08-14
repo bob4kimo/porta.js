@@ -1176,12 +1176,17 @@ function ListBox(v) {
         }
         return arr;
     }
-    var view = new ScrollView({x:0,y:0,w:300,h:500,isBarWhite:true,bgColor:'009900'});
+    var view = new ScrollView({x:0,y:0,w:300,h:500,isBarWhite:true,
+    isBarAutoHide:true,barAutoHideTime:3000,isBarAppearWhenOver:true,
+    bgColor:'009900'});
     view.addCellArr(getArrCell());
  * -------------------------------------------------------------------
- * v could be {x:10,y:10,w:100,h:100,isBarWhite:true,bgColor:'009900'}
- * isBarWhite: scroll-bar has 2 diff kinds of color-style, black or white
- * bgColor: scrollView's background color, transparent by default
+ * isBarWhite:      scroll-bar has 2 diff kinds of color-style, black or white
+ * isBarAutoHide:   when false, scroll-bar will always be there
+ * barAutoHideTime: after 3 sec scroll-bar will auto hide, in millisecond
+ * isBarAppearWhenOver:
+ *                  when false, scroll-bar will appear only when mouse-scrolling
+ * bgColor:         scrollView's background color, transparent by default
  *********************************************************************/
 function ScrollView(v) {
 
@@ -1211,6 +1216,8 @@ function ScrollView(v) {
     var isBarAutoHide = useFuncInputOrDefault(v,'isBarAutoHide',true);
     // scroll-bar will auto disappear after 3 sec
     var barAutoHideTime = useFuncInputOrDefault(v,'barAutoHideTime',3000);
+    // scroll-bar appeared when mouse-over
+    var isBarAppearWhenOver = useFuncInputOrDefault(v,'isBarAppearWhenOver',true);
 
     var contentH = 0;               // make scroll-bar appear only when contentH>hh
     var barWidthMin = 10;           // scroll-bar's width when normal
@@ -1346,12 +1353,10 @@ function ScrollView(v) {
         }
     }
     bgRoot.addMouseOver(function() {
-//            if(e.fromElement.offsetParent==null)  // only works for safari and chrome, not firefox
-        //----- this method not perfect, cursor moves btw obj on bgRoot will also call this func -----//
-//            if(e.target==bgScrollBase.obj||e.fromElement&&e.fromElement.offsetParent==null) {
-        scrollbarAniHide(false);
-        startBarAutoHideTimer();
-//            }
+        if( isBarAppearWhenOver ) {
+            scrollbarAniHide(false);
+            startBarAutoHideTimer();
+        }
     });
     //----- let scroll-bar auto hide -----//
 
