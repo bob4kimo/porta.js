@@ -1157,9 +1157,6 @@ function ListBox(v) {
  *********************************************************************/
 function ScrollView(v) {
 
-    /**----------------------------------------------------------------
-     * Public func for ScrollView, u can edit ScrollView from outside
-     * ----------------------------------------------------------------*/
     //----- clean all cell and reset scroll-bar -----//
     this.cleanAllCell = function() {
         resetScrollView();
@@ -1176,24 +1173,20 @@ function ScrollView(v) {
         });
     };
 
-
-
     var xx = useFuncInputOrDefault(v,'x',0);
     var yy = useFuncInputOrDefault(v,'y',0);
     var ww = useFuncInputOrDefault(v,'w',300);
-    var hh = useFuncInputOrDefault(v,'h',300);
+    var hh = useFuncInputOrDefault(v,'h',500);
     // color-style white or black for scroll-bar
     var isBarColorWhite = useFuncInputOrDefault(v,'isBarWhite',false);
-    var bgColor = useFuncInputOrDefault(v,'bgColor',null);
 
     var contentH = 0;               // make scroll-bar appear only when contentH>hh
     var barWidthMin = 10;           // scroll-bar's width when normal
     var barWidthMax = 18;           // scroll-bar's width when mouse-over
-    var barAlpha = .4;              // scroll-bar's alpha when it appeared
-    var barAniSpeed = .15;          // scroll-bar may fade-out disappear, fade ani-speed
-    var barAutoHideTime = 3000;     // 3 sec without user's action bar will auto-hide
 
-
+    var barAlpha = .4;
+    var barAniSpeed = .15;
+    var barAutoHideTime = 3000;     // 3 sec
 
 
     //----- if cell exist, remove all cell and reset scroll-bar -----//
@@ -1231,8 +1224,8 @@ function ScrollView(v) {
 
     var bgRoot = new Sprite();
     bgRoot.initDiv();
-    if( bgColor ) {
-        bgRoot.colorHex(bgColor);
+    if( isInputValid(v)&&isInputValid(v.bgColor) ) {
+        bgRoot.colorHex(v.bgColor);
     }
     bgRoot.frame(xx,yy,ww,hh);
 
@@ -1255,7 +1248,7 @@ function ScrollView(v) {
     //----- make scroll-bar bigger when user wants to drag on it -----//
     function makeBarBigger(v) {
         if( isInputBoolean(v) ) {
-            if( v===true ) {
+            if( v==true ) {
                 scrollbar.aniByCSS(barAniSpeed,{width:barWidthMax,borderRadius:barWidthMax/2},false,null);
                 //----- when ready dragging bar, disable bar's auto hide -----//
                 scrollbarAniHide(false);
@@ -1296,19 +1289,19 @@ function ScrollView(v) {
     //----- let scroll-bar auto hide -----//
     var timerBarAutoHide = null;
     function scrollbarAniHide(v) {
-        if( !isInputValid(v) || isInputBoolean(v)&&v===true ) {
+        if( !isInputValid(v) || isInputBoolean(v)&&v==true ) {
             scrollbar.aniByAlpha(barAniSpeed, 0, function () {
                 scrollbar.hidden(true);
             });
         } else {
-            if (scrollbar.alpha() === 0) {
+            if (scrollbar.alpha() == 0) {
                 scrollbar.hidden(false);
                 scrollbar.aniByCSS(barAniSpeed, {alpha: barAlpha}, false, null);
             }
         }
     }
     function startBarAutoHideTimer(v) {
-        if( !isInputValid(v) || isInputBoolean(v)&&v===true ) {
+        if( !isInputValid(v) || isInputBoolean(v)&&v==true ) {
             clearInterval(timerBarAutoHide);
             timerBarAutoHide = setInterval(function () {
                 scrollbarAniHide();
@@ -1340,7 +1333,7 @@ function ScrollView(v) {
         //----- not allow drag -----//
         isAllowDrag = false;
         //----- do not start auto hide timer when cursor still on scroll-bar -----//
-        if(scrollbar.width()!==barWidthMax)
+        if(scrollbar.width()!=barWidthMax)
             startBarAutoHideTimer();
     }, false);
     scrollbar.addMouseOver(function() {
@@ -1395,8 +1388,6 @@ function ScrollView(v) {
 
 
 function Alert(title,onBtnOK,onBtnCancel,onMaskClick) {
-
-
     var maskAlpha = .7;
     function removeAlert() {
         t1.removeFromParent();
