@@ -816,13 +816,14 @@ Sprite.prototype.initLoading = function(v) {
 
 
 /**----------------------------------------------------------------
- ListCell-For ListBox usage(may treat as button)
- Ex:var cc = new ListCell({x:0,y:0});
+ ListBoxCell (only For ListBox usage(may treat as button))
+ ----------------------------------------------------------------
+ Ex:var cc = new ListBoxCell({x:0,y:0});
  cc.whenClick(function() {
         log('hello');
-    });
+ });
  ----------------------------------------------------------------*/
-function ListCell(v) {
+function ListBoxCell(v) {
 
     var def={
         x:200,
@@ -951,13 +952,18 @@ function ListCell(v) {
 
 
 /**----------------------------------------------------------------
+ * ListBox (shows as check-box, return which index & string u choose)
+ * ----------------------------------------------------------------
+ var arrName = ["Hello","Sunday","Woods"];
+ var ll = new ListBox({x:310,y:110,arrCell:arrName,cellH:50,w:230,textSize:'27'});
+ ll.whenUserSelected(function(v) {
+    log(v);
+ });
+ * ----------------------------------------------------------------
  A) ListBox's x,y will become center-top of the shape-triangle
  B) memory test-->memory release ok
  C) function's parameter pls refer to def inside func
  D) add listener:whenUserSelected when list been selected
- Ex:
- var arrName = ["Hello","Sunday","Woods"];
- new ListBox({x:310,y:110,arrCell:arrName,cellH:50,w:230,textSize:'27'});
  * ----------------------------------------------------------------*/
 function ListBox(v) {
 
@@ -1080,7 +1086,7 @@ function ListBox(v) {
         if( isCellExist ) {
             for( var i=0; i<v.arrCell.length;i++) {
                 var posy = (i*cellH);
-                var cc = new ListCell({
+                var cc = new ListBoxCell({
                     x:0,y:posy,title:v.arrCell[i],tag:i,width:w,height:cellH,
                     colorNormal:colorNormal,colorOver:colorOver,colorDown:colorDown,titleColor:colorText,
                     titleSize:textSize,colorEven:colorEven
@@ -1095,7 +1101,7 @@ function ListBox(v) {
             bgRoot.height(cellTotalHeight+tShapeH+borderDis);
             bgRound.height(cellTotalHeight);
         } else {
-            var dd = new ListCell({
+            var dd = new ListBoxCell({
                 title:'empty',width:w,height:cellH,x:0,y:0,tag:0,
                 colorNormal:colorNormal,colorOver:colorOver,colorDown:colorDown,titleColor:colorText,
                 titleSize:textSize,colorEven:colorEven
@@ -1118,7 +1124,8 @@ function ListBox(v) {
 
     //----- mouse-click by user -----//
     function whenCellClick(v) {
-        ans = arr[v].getText();
+        // return back which index and it's string content, array format
+        ans = [v,arr[v].getText()];
         if(isInputFuncType(clientFunc)) {
             clientFunc(ans);
         }
