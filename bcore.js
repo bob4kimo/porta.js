@@ -967,28 +967,24 @@ function ListBoxCell(v) {
  * ----------------------------------------------------------------*/
 function ListBox(v) {
 
-    var def={
-        x:200,
-        y:200,
-        w:270,
-        h:60,
-        isScrollBar:false,
-        cornerR:10,
-        tShapeW:20,
-        tShapeH:10,
-        cellH:30,
-        colorNormal:'4e886f',
-        colorOver:'f5b333',
-        colorDown:'f55904',
-        colorEven:'43755f',
-        colorText:'ffffff',
-        textSize:'20',
-        isShadow:true
-    };
+    var isCellExist = isInputValid(v)&&isInputArray(v.arrCell);
+    var x = useFuncInputOrDefault(v,'x',200);
+    var y = useFuncInputOrDefault(v,'y',200);
+    var w = useFuncInputOrDefault(v,'w',270);
+    var h = useFuncInputOrDefault(v,'h',60);
+    var cornerR = useFuncInputOrDefault(v,'cornerR',10);
+    var tShapeW = useFuncInputOrDefault(v,'tShapeW',20);
+    var tShapeH = useFuncInputOrDefault(v,'tShapeH',10);
+    var cellH = useFuncInputOrDefault(v,'cellH',30);
+    var colorNormal = useFuncInputOrDefault(v,'colorNormal','4e886f');
+    var colorDown = useFuncInputOrDefault(v,'colorDown','f55904');
+    var colorOver = useFuncInputOrDefault(v,'colorOver','f5b333');
+    var colorEven = useFuncInputOrDefault(v,'colorEven','43755f');
+    var colorText = useFuncInputOrDefault(v,'colorText','ffffff');
+    var textSize = useFuncInputOrDefault(v,'textSize','20');
 
-    var x,y,w,h,isScrollBar,cornerR,tShapeW,tShapeH,isCellExist,cellH;
-    var cellTotalHeight,colorNormal,colorOver,colorDown,colorEven,colorText,textSize;
-    var bgRoot,bgRound,bgTShape = null;
+
+    var cellTotalHeight,bgRoot,bgRound,bgTShape = null;
     //----- more space for bgRound's shadow -----//
     var borderDis = 20;
     //----- final string selected by user from list -----//
@@ -1002,26 +998,6 @@ function ListBox(v) {
     //----- assign from outside for when cell-click -----//
     var clientFunc = null;
 
-
-
-    function initVar() {
-        x = isInputValid(v)&&isInputValid(v.x)?v.x:def.x;
-        y = isInputValid(v)&&isInputValid(v.y)?v.y:def.y;
-        w = isInputValid(v)&&isInputValid(v.w)?v.w:def.w;
-        h = isInputValid(v)&&isInputValid(v.h)?v.h:def.h;
-        isScrollBar = isInputValid(v)&&isInputBoolean(v.isScrollBar)?v.isScrollBar:def.isScrollBar;
-        cornerR = isInputValid(v)&&isInputValid(v.cornerR)?v.cornerR:def.cornerR;
-        tShapeW = isInputValid(v)&&isInputValid(v.tShapeW)?v.tShapeW:def.tShapeW;
-        tShapeH = isInputValid(v)&&isInputValid(v.tShapeH)?v.tShapeH:def.tShapeH;
-        isCellExist = isInputValid(v)&&isInputArray(v.arrCell);
-        cellH = isInputValid(v)&&isInputValid(v.cellH)?v.cellH:def.cellH;
-        colorNormal = isInputValid(v)&&isInputString(v.colorNormal)?v.colorNormal:def.colorNormal;
-        colorDown = isInputValid(v)&&isInputString(v.colorDown)?v.colorDown:def.colorDown;
-        colorOver = isInputValid(v)&&isInputString(v.colorOver)?v.colorOver:def.colorOver;
-        colorEven = isInputValid(v)&&isInputString(v.colorEven)?v.colorEven:def.colorEven;
-        colorText = isInputValid(v)&&isInputString(v.colorText)?v.colorText:def.colorText;
-        textSize = isInputValid(v)&&isInputString(v.textSize)?v.textSize:def.textSize;
-    }
 
     function exit() {
         bgMother.removeFromParent();
@@ -1119,9 +1095,6 @@ function ListBox(v) {
     }
 
 
-
-
-
     //----- mouse-click by user -----//
     function whenCellClick(v) {
         // return back which index and it's string content, array format
@@ -1132,12 +1105,7 @@ function ListBox(v) {
         exit();
     }
 
-
-
-
-
-
-    initVar();
+    
     initBgMother();
     initBgExit();
     initBgRoot();
