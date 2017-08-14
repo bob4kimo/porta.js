@@ -1149,8 +1149,36 @@ function ListBox(v) {
 
 
 /*********************************************************************
- * ScrollView
- * --------------------------
+ * ScrollView (many sprite-cell can place in it and scroll vertically)
+ * -------------------------------------------------------------------
+ * function getCell(i) {
+        var ccc = new Sprite();
+        ccc.initDiv();
+        ccc.applyText(i);
+        ccc.textFont('font-normal');
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        ccc.color(r,g,b);
+        ccc.frame(0,50*i,400,50);
+        ccc.addMouseOver(function () {
+            ccc.alpha(.3);
+        });
+        ccc.addMouseOut(function () {
+            ccc.alpha(1);
+        });
+        return ccc;
+    }
+    function getArrCell() {
+        var arr = [];
+        for( var i=0;i<15;i++ ) {
+            arr.push(getCell(i));
+        }
+        return arr;
+    }
+    var view = new ScrollView({x:0,y:0,w:300,h:500,isBarWhite:true,bgColor:'009900'});
+    view.addCellArr(getArrCell());
+ * -------------------------------------------------------------------
  * v could be {x:10,y:10,w:100,h:100,isBarWhite:true,bgColor:'009900'}
  * isBarWhite: scroll-bar has 2 diff kinds of color-style, black or white
  * bgColor: scrollView's background color, transparent by default
@@ -1179,6 +1207,10 @@ function ScrollView(v) {
     var hh = useFuncInputOrDefault(v,'h',500);
     // color-style white or black for scroll-bar
     var isBarColorWhite = useFuncInputOrDefault(v,'isBarWhite',false);
+    // scroll-bar will auto disappear by default
+    var isBarAutoHide = useFuncInputOrDefault(v,'isBarAutoHide',true);
+    // scroll-bar will auto disappear after 3 sec
+    var barAutoHideTime = useFuncInputOrDefault(v,'barAutoHideTime',3000);
 
     var contentH = 0;               // make scroll-bar appear only when contentH>hh
     var barWidthMin = 10;           // scroll-bar's width when normal
@@ -1186,7 +1218,7 @@ function ScrollView(v) {
 
     var barAlpha = .4;
     var barAniSpeed = .15;
-    var barAutoHideTime = 3000;     // 3 sec
+
 
 
     //----- if cell exist, remove all cell and reset scroll-bar -----//
@@ -1248,7 +1280,7 @@ function ScrollView(v) {
     //----- make scroll-bar bigger when user wants to drag on it -----//
     function makeBarBigger(v) {
         if( isInputBoolean(v) ) {
-            if( v==true ) {
+            if( v===true ) {
                 scrollbar.aniByCSS(barAniSpeed,{width:barWidthMax,borderRadius:barWidthMax/2},false,null);
                 //----- when ready dragging bar, disable bar's auto hide -----//
                 scrollbarAniHide(false);
@@ -1289,29 +1321,31 @@ function ScrollView(v) {
     //----- let scroll-bar auto hide -----//
     var timerBarAutoHide = null;
     function scrollbarAniHide(v) {
-        if( !isInputValid(v) || isInputBoolean(v)&&v==true ) {
+        if( !isInputValid(v) || isInputBoolean(v)&&v===true ) {
             scrollbar.aniByAlpha(barAniSpeed, 0, function () {
                 scrollbar.hidden(true);
             });
         } else {
-            if (scrollbar.alpha() == 0) {
+            if (scrollbar.alpha().toString()==='0') {
                 scrollbar.hidden(false);
                 scrollbar.aniByCSS(barAniSpeed, {alpha: barAlpha}, false, null);
             }
         }
     }
     function startBarAutoHideTimer(v) {
-        if( !isInputValid(v) || isInputBoolean(v)&&v==true ) {
-            clearInterval(timerBarAutoHide);
-            timerBarAutoHide = setInterval(function () {
-                scrollbarAniHide();
-                startBarAutoHideTimer(false);
-            }, barAutoHideTime);
-        } else {
-            clearInterval(timerBarAutoHide);
+        if( isBarAutoHide ) {
+            if (!isInputValid(v) || isInputBoolean(v) && v === true) {
+                clearInterval(timerBarAutoHide);
+                timerBarAutoHide = setInterval(function () {
+                    scrollbarAniHide();
+                    startBarAutoHideTimer(false);
+                }, barAutoHideTime);
+            } else {
+                clearInterval(timerBarAutoHide);
+            }
         }
     }
-    bgRoot.addMouseOver(function(e) {
+    bgRoot.addMouseOver(function() {
 //            if(e.fromElement.offsetParent==null)  // only works for safari and chrome, not firefox
         //----- this method not perfect, cursor moves btw obj on bgRoot will also call this func -----//
 //            if(e.target==bgScrollBase.obj||e.fromElement&&e.fromElement.offsetParent==null) {
@@ -1333,7 +1367,7 @@ function ScrollView(v) {
         //----- not allow drag -----//
         isAllowDrag = false;
         //----- do not start auto hide timer when cursor still on scroll-bar -----//
-        if(scrollbar.width()!=barWidthMax)
+        if(scrollbar.width()!==barWidthMax)
             startBarAutoHideTimer();
     }, false);
     scrollbar.addMouseOver(function() {
