@@ -957,7 +957,7 @@ function ListBoxCell(v) {
  var arrName = ["Hello","Sunday","Woods"];
  var ll = new ListBox({x:310,y:110,arrCell:arrName,cellH:50,w:230,textSize:'27'});
  ll.whenUserSelected(function(v) {
-    log(v);
+    log(v); // ex:[1, "Sunday"]
  });
  * ----------------------------------------------------------------
  A) ListBox's x,y will become center-top of the shape-triangle
@@ -1105,7 +1105,7 @@ function ListBox(v) {
         exit();
     }
 
-    
+
     initBgMother();
     initBgExit();
     initBgRoot();
