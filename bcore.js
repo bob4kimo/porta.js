@@ -818,58 +818,39 @@ Sprite.prototype.initLoading = function(v) {
 /**----------------------------------------------------------------
  ListBoxCell (only For ListBox usage(may treat as button))
  ----------------------------------------------------------------
- Ex:var cc = new ListBoxCell({x:0,y:0});
+ var cc = new ListBoxCell({
+ x:0,y:posy,title:'ur name',tag:i,width:w,height:cellH,
+ colorNormal:colorNormal,colorOver:colorOver,colorDown:colorDown,titleColor:colorText,
+ titleSize:textSize,colorEven:colorEven
+ });
  cc.whenClick(function() {
         log('hello');
  });
  ----------------------------------------------------------------*/
 function ListBoxCell(v) {
 
-    var def={
-        x:200,
-        y:200,
-        width:250,
-        height:60,
-        colorNormal:'4e886f',
-        colorOver:'f5b333',
-        colorDown:'f55904',
-        colorEven:'43755f',
-        title:'BUTTON',
-        titleSize:'20',
-        titleColor:'ffffff',
-        tag:'0',
-        iconTitleDis:10
-    };
-
-    var icon,title,titleSize,titleColor,colorNormal,colorOver,colorDown,xx,yy,ww,hh,tag,iconTitleDis,isTitleCenter;
-    var colorEven,shapeTriangle,funcOnClick;
+    var shapeTriangle,funcOnClick;
     var bgRoot = null;
     var bgTitle = null;
 
+    var xx = useFuncInputOrDefault(v,'x',0);
+    var yy = useFuncInputOrDefault(v,'y',0);
+    var ww = useFuncInputOrDefault(v,'w',250);
+    var hh = useFuncInputOrDefault(v,'h',50);
+    var colorNormal = useFuncInputOrDefault(v,'colorNormal','4e886f');
+    var colorEven = useFuncInputOrDefault(v,'colorEven','43755f');
+    var colorOver = useFuncInputOrDefault(v,'colorOver','f5b333');
+    var colorDown = useFuncInputOrDefault(v,'colorDown','f55904');
+    var title = useFuncInputOrDefault(v,'title','BUTTON');
+    var titleSize = useFuncInputOrDefault(v,'titleSize','20');
+    var titleColor = useFuncInputOrDefault(v,'titleColor','ffffff');
+    var tag = useFuncInputOrDefault(v,'tag',0);
 
-
-    function initVar() {
-        tag = isInputValid(v)&&isInputValid(v.tag)?v.tag:def.tag;
-        isTitleCenter = !(isInputValid(v)&&isInputObject(v.icon));
-        icon = isTitleCenter?null:v.icon;
-        iconTitleDis = isInputValid(v)&&isInputValid(v.iconTitleDis)?v.iconTitleDis:def.iconTitleDis;
-        xx = isInputValid(v)&&isInputValid(v.x)?v.x:def.x;
-        yy = isInputValid(v)&&isInputValid(v.y)?v.y:def.y;
-        ww = isInputValid(v)&&isInputValid(v.width)?v.width:def.width;
-        hh = isInputValid(v)&&isInputValid(v.height)?v.height:def.height;
-        colorNormal = isInputValid(v)&&isInputString(v.colorNormal)?v.colorNormal:def.colorNormal;
-        colorDown = isInputValid(v)&&isInputString(v.colorDown)?v.colorDown:def.colorDown;
-        colorOver = isInputValid(v)&&isInputString(v.colorOver)?v.colorOver:def.colorOver;
-        colorEven = isInputValid(v)&&isInputString(v.colorEven)?v.colorEven:def.colorEven;
-        title = isInputValid(v)&&isInputString(v.title)?v.title:def.title;
-        titleSize = isInputValid(v)&&isInputString(v.titleSize)?v.titleSize:def.titleSize;
-        titleColor = isInputValid(v)&&isInputString(v.titleColor)?v.titleColor:def.titleColor;
-
-        //----- when cell's index is even, make bg color little darker -----//
-        if( tag%2!==0 ) {
-            colorNormal = colorEven;
-        }
+    //----- when cell's index is even, make bg color little darker -----//
+    if( tag%2!==0 ) {
+        colorNormal = colorEven;
     }
+
 
     function initBgRoot() {
         bgRoot = new Sprite();
@@ -908,25 +889,25 @@ function ListBoxCell(v) {
 
 
     function initIconTitle() {
-        if( isTitleCenter ) {
-            bgTitle = new Sprite();
-            bgTitle.initDiv();
-            bgTitle.width(bgRoot.width()-20);
-            bgTitle.height(bgRoot.height()-10);
-            bgTitle.applyText(title);
-            bgTitle.textSize(titleSize);
-            bgTitle.textColor(titleColor);
-            bgTitle.alignCenter();
-            bgTitle.textAlignCenter();
-            bgTitle.makeCursorNormal();
-            bgRoot.addChild(bgTitle);
-        }
+        var sideDis = 5;
+        bgTitle = new Sprite();
+        bgTitle.initDiv();
+        // bgTitle.colorHex('990000');  // debug usage
+        bgTitle.left(sideDis);
+        bgTitle.top(sideDis);
+        bgTitle.width(bgRoot.width()-sideDis*6);
+        bgTitle.height(bgRoot.height()-sideDis*2);
+        bgTitle.applyText(title);
+        bgTitle.textSize(titleSize);
+        bgTitle.textColor(titleColor);
+        bgTitle.textAlignCenter();
+        bgTitle.makeCursorNormal();
+
+        bgRoot.addChild(bgTitle);
     }
 
 
 
-
-    initVar();
     initBgRoot();
     initIconTitle();
 
