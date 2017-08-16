@@ -955,7 +955,9 @@ function ListBoxCell(v) {
  * ListBox (shows as check-box, return which index & string u choose)
  * ----------------------------------------------------------------
  var arrName = ["Hello","Sunday","Woods"];
- var ll = new ListBox({x:310,y:110,arrCell:arrName,cellH:50,w:230,textSize:'27'});
+ var ll = new ListBox({x:310,y:110,arrCellName:arrName,cellH:50,w:230,textSize:'27',
+ cornerR:10,tShapeW:20,tShapeH:10,colorNormal:'4e886f',colorEven:'43755f',
+ colorOver:'f5b333',colorDown:'f55904',colorText:'ffffff'});
  ll.whenUserSelected(function(v) {
     log(v); // ex:[1, "Sunday"]
  });
@@ -967,7 +969,8 @@ function ListBoxCell(v) {
  * ----------------------------------------------------------------*/
 function ListBox(v) {
 
-    var isCellExist = isInputValid(v)&&isInputArray(v.arrCell);
+    var isCellExist = isInputValid(v)&&isInputArray(v.arrCellName);
+
     var x = useFuncInputOrDefault(v,'x',200);
     var y = useFuncInputOrDefault(v,'y',200);
     var w = useFuncInputOrDefault(v,'w',270);
@@ -1060,10 +1063,10 @@ function ListBox(v) {
 
         //----- user define cell's name or not -----//
         if( isCellExist ) {
-            for( var i=0; i<v.arrCell.length;i++) {
+            for( var i=0; i<v.arrCellName.length;i++) {
                 var posy = (i*cellH);
                 var cc = new ListBoxCell({
-                    x:0,y:posy,title:v.arrCell[i],tag:i,width:w,height:cellH,
+                    x:0,y:posy,title:v.arrCellName[i],tag:i,width:w,height:cellH,
                     colorNormal:colorNormal,colorOver:colorOver,colorDown:colorDown,titleColor:colorText,
                     titleSize:textSize,colorEven:colorEven
                 });
@@ -1073,7 +1076,7 @@ function ListBox(v) {
             }
             //----- update bg and bg-rounded's height by cell -----//
             var ccc = arr[0];
-            cellTotalHeight = ccc.getCellHeight()*(v.arrCell.length);
+            cellTotalHeight = ccc.getCellHeight()*(v.arrCellName.length);
             bgRoot.height(cellTotalHeight+tShapeH+borderDis);
             bgRound.height(cellTotalHeight);
         } else {
