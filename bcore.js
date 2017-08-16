@@ -1011,7 +1011,7 @@ function ListBox(v) {
         bgRoot.left(x-(w+borderDis)/2);//(x-borderDis/2);
         bgRoot.width(w+borderDis);
         bgRoot.height(h);               // bgRoot's height may change later in initCell()
-//        bgRoot.colorHex('000099');      // debug-usage
+        // bgRoot.colorHex('000099');      // debug-usage
         bgMother.addChild(bgRoot);
     }
 
@@ -1037,7 +1037,7 @@ function ListBox(v) {
     function initShadow() {
         //----- when user define isShadow=false will not run this func -----//
         if( !(isInputValid(v)&&isInputBoolean(v.isShadow)&&!v.isShadow) )
-            bgRound.shadow(0,0,15,.7);
+            bgRound.shadow(0,0,8,.7);
     }
 
     function initCell() {
