@@ -7,3 +7,6 @@ firewall-cmd --reload
 
 [心得] 與 DDoS 奮戰：nginx, iptables 與 fail2ban
 http://huli.logdown.com/posts/774229-the-battle-against-ddos-nginx-iptables-and-fail2ban
+
+Ubuntu 設定 Nginx 作為 Apache 的 Reverse Proxy Server
+http://www.arthurtoday.com/2010/07/nginx-apache-reverse-proxy-server.html
