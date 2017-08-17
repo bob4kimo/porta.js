@@ -1,0 +1,9 @@
+yum install nginx
+systemctl start nginx
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --reload
+
+
+[心得] 與 DDoS 奮戰：nginx, iptables 與 fail2ban
+http://huli.logdown.com/posts/774229-the-battle-against-ddos-nginx-iptables-and-fail2ban
