@@ -368,17 +368,27 @@ Sprite.prototype.addMouseClick = function(func) {
 Sprite.prototype.addMouseDoubleClick = function(func) {
     this.obj.addEventListener('dblclick',func,false);
 };
-/**----------------------------------------------------------------
+/**---------------------------------------------------------------------------
  * Quick add mouse-event for changing color and fade-ani, just like button
- * Ex: v1.addMouseColorEvent({colorNormal:'990000',colorOver:'FF0000',colorDown:'FFF000',fadeOutSpeed:.3});
+ * ---------------------------------------------------------------------------
+ * var ss = new Sprite();
+   ss.initDiv();
+   ss.frame(0,0,100,100);
+   ss.colorHex('009900');
+   ss.addMouseEvent({colorNormal:'990000',colorOver:'009900',colorDown:'000099',fadeOutSpeed:.3,
+   onOver:function(){log('over');},
+   onOut:function(){log('out');},onDown:function(){log('down');},
+   onClick:function(){log('click');}
+   });
+ * ---------------------------------------------------------------------------
  * colorNormal: is must have var, defined color in normal-state
  * colorOver:   when this var exist, means we have mouse-over and mouse-out state
  * colorDown:   when exist, means we have mouse-down and mouse-up state
  * fadeOutSpeed:when exist, means we have fade-out animation
- * ----------------------------------------------------------------
+ * ---------------------------------------------------------------------------
  * P.S. mouse-down and mouse-up may have delay in browser's developer-mode
- ----------------------------------------------------------------*/
-Sprite.prototype.addMouseColorEvent = function(v) {
+ ---------------------------------------------------------------------------*/
+Sprite.prototype.addMouseEvent = function(v) {
     var tween = null;
     v.sp = this;
     if(isInputValid(v)) {
@@ -389,11 +399,7 @@ Sprite.prototype.addMouseColorEvent = function(v) {
                 v.sp.colorHex(v.colorOver);
             });
             this.addMouseOut(function() {
-                if(isInputValid(v.fadeOutSpeed)) {
-                    tween = v.sp.aniByColor(v.fadeOutSpeed,v.colorNormal,false);
-                } else {
-                    v.sp.colorHex(v.colorNormal);
-                }
+                tween = v.sp.aniByColor(useFuncInputOrDefault(v,'fadeOutSpeed',0),v.colorNormal,false);
             });
         }
         if(isInputString(v.colorDown)) {
@@ -407,6 +413,26 @@ Sprite.prototype.addMouseColorEvent = function(v) {
                     v.sp.colorHex(v.colorOver);
                 else
                     v.sp.colorHex(v.colorNormal);
+            });
+        }
+        if(isInputFuncType(v.onOver)) {
+            this.addMouseOver(function() {
+                v.onOver();
+            });
+        }
+        if(isInputFuncType(v.onOut)) {
+            this.addMouseOut(function() {
+                v.onOut();
+            });
+        }
+        if(isInputFuncType(v.onDown)) {
+            this.addMouseDown(function() {
+                v.onDown();
+            });
+        }
+        if(isInputFuncType(v.onClick)) {
+            this.addMouseClick(function() {
+                v.onClick();
             });
         }
     }
