@@ -133,11 +133,11 @@ function deleteCharFromIndex(originalStr,fromIndex,toIndex) {
 
 
 /**--------------------------------------------------------------------------------------
- * Get all keyword's char-index from target string with array format, target must perfect
+ * Get all keyword's index from target string return array format, target must perfect
  * match to keyword.
  * -------------------------------------------------------------------------------------
  * var str = 'apple.wds;applef;sapple;napplek;apple';
- * log(getKeywordIndexArrFromStr(str,'apple'));     // [0,32]
+ * log( getKeywordIndexArrFromStr(str,'apple') );     // [0,32]
  ---------------------------------------------------------------------------------------*/
 function getKeywordIndexArrFromStr(originalStr, keyword) {
     //----- DEPRECATED -------
