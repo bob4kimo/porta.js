@@ -145,23 +145,33 @@ function getKeywordIndexArrFromStr(originalStr, keyword) {
     //     arrKeywordIndex.push(pos);
     //----- DEPRECATED -------
 
+    // array for recording index, return answer
     var arrKeywordIndex = [];
+    // copy original string to temp, temp-str will do some modify, content will change
     var tempStr = originalStr;
-
+    // regular expression for perfect match keyword
     var regex = new RegExp('\\b' + keyword + '\\b');
+    // for blocking the keyword we already in count
     var keywordMask = '';
+    // generate keyword-mask, for blocking the keyword in string
     for( var i=0; i<keyword.length; i++ ) {
         keywordMask += 'x';
     }
 
+    // for recording current keyword-index
     var keywordIndex = -1;
+    // search whole string to find keyword-index, if exist save index to var and return true
     function isKeywordInsideStr(str) {
         keywordIndex = str.search(regex);
         return keywordIndex>-1;
     }
 
+    // when there is still keyword inside tempStr, keep searching
     while( isKeywordInsideStr(tempStr) ) {
+        // keyword-index exist, save into array
         arrKeywordIndex.push(keywordIndex);
+        // overwrite keyword to "keywordMask", so searching will not find repeated index,
+        // this index we have saved it, break-down this keyword and looping will find next new index
         tempStr = replaceStrAt(tempStr,keywordIndex,keyword,keywordMask);
     }
 
