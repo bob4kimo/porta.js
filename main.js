@@ -29,25 +29,10 @@
 // textBcoreJs = deleteAllEmptyLineForStr(textBcoreJs);
 // showResultOnScreen( textBcoreJs );
 
-// check js's indexOf() extract keyword or keyword within others
-var str = 'apple.wds;applef;sapple;napplek;apple';
+// NEXT: randomArr may use base64 encode char
+// NEXT: first do encode within func's var
 
 
-
-// var regex = new RegExp('\\b' + 'apple' + '\\b');
-// var pos = -1;
-// var tempStr = str;
-// while( tempStr.search(regex)>-1 ) {
-//     pos = tempStr.search(regex);
-//     tempStr = replaceStrAt(tempStr,pos,'apple','xxxxx');
-//     log(pos);
-//     log(tempStr);
-// }
-// 0,32
-
-
-
-log(getKeywordIndexArrFromStr(str,'apple'));
 
 
 
