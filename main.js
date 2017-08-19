@@ -164,6 +164,25 @@ function getKeywordIndexArrFromStr(originalStr, keyword) {
 }
 
 
+
+/**--------------------------------------------------------------------------------------
+ * Replace keyword to new one in string
+ * -------------------------------------------------------------------------------------
+ * originalStr: ur main string
+ * startIndex:  replace-target's char index
+ * targetStr:   replace-target's string
+ * replaceStr:  new string we are going to replaced
+ * -------------------------------------------------------------------------------------
+ * var mainStr = 'This is an apple.';
+ * log( replaceStrAt(mainStr,11,apple,orange) );      // This is an orange.
+ ---------------------------------------------------------------------------------------*/
+function replaceStrAt(originStr, startIndex, targetStr, replaceStr) {
+    var charSpace = targetStr.length;
+    return originStr.substring(0, startIndex) + replaceStr + originStr.substring(startIndex + charSpace, originStr.length);
+}
+
+
+
 /**--------------------------------------------------------------------------------------
  * Make random-name array for replacing function or variable :: getUniqueRandomNameArr
  * nameLength: each name's length, ex:nameLength=2 name=xx, nameLength=3 name=xxx
@@ -268,10 +287,7 @@ function getKeywordPreviousChar(allString, keywordIndex) {
 
 
 
-function replaceStrAt(originStr, startIndex, targetStr, replaceStr) {
-    var charSpace = targetStr.length;
-    return originStr.substring(0, startIndex) + replaceStr + originStr.substring(startIndex + charSpace, originStr.length);
-}
+
 
 
 
