@@ -36,6 +36,8 @@
 
 
 
+
+
 /**--------------------------------------------------------------------------------------
  * Remove all empty-line in target string
  ---------------------------------------------------------------------------------------*/
@@ -165,6 +167,8 @@ function getKeywordIndexArrFromStr(originalStr, keyword) {
 
 
 
+
+
 /**--------------------------------------------------------------------------------------
  * Replace keyword to new one in string
  * -------------------------------------------------------------------------------------
@@ -174,7 +178,7 @@ function getKeywordIndexArrFromStr(originalStr, keyword) {
  * replaceStr:  new string we are going to replaced
  * -------------------------------------------------------------------------------------
  * var mainStr = 'This is an apple.';
- * log( replaceStrAt(mainStr,11,apple,orange) );      // This is an orange.
+ * log( replaceStrAt(mainStr,11,'apple','orange') );      // This is an orange.
  ---------------------------------------------------------------------------------------*/
 function replaceStrAt(originStr, startIndex, targetStr, replaceStr) {
     var charSpace = targetStr.length;
@@ -183,8 +187,11 @@ function replaceStrAt(originStr, startIndex, targetStr, replaceStr) {
 
 
 
+
+
 /**--------------------------------------------------------------------------------------
- * Make random-name array for replacing function or variable :: getUniqueRandomNameArr
+ * Make random-name array for replacing function or variable, return name array
+ * --------------------------------------------------------------------------------------
  * nameLength: each name's length, ex:nameLength=2 name=xx, nameLength=3 name=xxx
  * arrCount: how many name in this arr u are going to make
 ---------------------------------------------------------------------------------------*/
@@ -369,7 +376,7 @@ function encryptBcoreJs(localFile, func) {
 function encryptTargetJs(localFile, arrBcoreKeyWords) {
 
     var arrTemp1 = getNoRepeatVarNameArr2();
-    var arrNewName = getUniqueRandomNameArr(3, arrTemp1.length);
+    var arrNewName = getRandomNameArr(3, arrTemp1.length);
     var countIndex = 0;
     arrTemp1.forEach(function (v) {
         while (getNextValidKeywordIndex(v) > 0) {
