@@ -3,14 +3,68 @@
 /**--------------------------------------------------------------------------------------
  * Entry Point
  ---------------------------------------------------------------------------------------*/
-new BobDatePicker({
+// new BobDatePicker({
 //    isHeadSunday:true
-});
+// });
 
-//    var days = new Date(2017,12,0);
-//    console.log(days.getDate());//28
-//    console.log(days.getMonth());//1
-//    console.log(days);//today
+
+
+
+var dd = new Date(2017,10,1);
+log(dd);
+log('date='+dd.getDate());
+log('day='+getWeekIndex(dd,true));
+log('FullYear='+dd.getFullYear());
+log('month='+ (dd.getMonth()+1));
+
+// Error in getMonthGridHorCount(), outcome not correct, need to fix,
+// try to figure out how drawing-grid be draw for current month
+log('total grid-day count='+getMonthGridHorCount(dd,true));
+
+
+/**--------------------------------------------------------------------------------------
+ * Get which day-index it is, Mon,Tue,Wed..., 0 means Mon, 1=Tue...
+ * --------------------------------------------------------------------------------------
+ * date: Date() object in js
+ * isSundayHead: true means first day of week is sunday, false means first day is Monday
+ ---------------------------------------------------------------------------------------*/
+function getWeekIndex(date,isSundayHead) {
+    if(isSundayHead) {
+        return date.getDay();
+    } else {
+        if( date.getDay()===0 ) {
+            return 6;
+        } else {
+            return date.getDay()-1;
+        }
+    }
+}
+
+
+/**--------------------------------------------------------------------------------------
+ * Get month-grid's horizontal count, how many horizontal-line in this month-grid
+ * --------------------------------------------------------------------------------------
+ * Ex: 2017-Aug has 5 hor-line, 2017-Oct has 6 hor-lines
+ * --------------------------------------------------------------------------------------
+ * date: Date() object in js
+ * isSundayHead: true means first day of week is sunday, false means first day is Monday
+ ---------------------------------------------------------------------------------------*/
+function getMonthGridHorCount(date,isSundayHead) {
+    var monthFirstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    log('firstDay='+monthFirstDay);
+
+    log('year='+date.getFullYear()+' month='+(date.getMonth()+1));
+    var monthTotalDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+    log('monthTotalDays='+monthTotalDays);
+    var oneWeekDays = 7;
+    var firstWeekDayCount = oneWeekDays-getWeekIndex(monthFirstDay,isSundayHead);
+    log('firstWeekLeft='+firstWeekDayCount);
+
+    //----- Round a number upward to its nearest integer -----//
+    //----- ex:Math.ceil(1.4)==2 -----//
+    return Math.ceil((monthTotalDays-firstWeekDayCount)/7)+1;
+}
+
 
 
 function BobDatePicker(v) {
@@ -45,7 +99,7 @@ function BobDatePicker(v) {
 
 
     //----- all code init and runs here -----//
-    var today = new Date(2016,9,19);
+    var today = new Date(2017,8,31);
 //    log("today is "+today);
     renderDate(today,this.isHeadSunday);
 
