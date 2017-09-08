@@ -9,16 +9,21 @@
 
 
 
-
-var dd = new Date(2017,10,1);
+// mouth=0=Jan,mouth=1=Feb,Date(2017,0,1)=2017/Jan/1,Date(2017,9,1)=2017/Oct/1
+var dd = new Date(2017,9,1);    // 2017-10-01
 log(dd);
 log('date='+dd.getDate());
 log('day='+getWeekIndex(dd,true));
 log('FullYear='+dd.getFullYear());
-log('month='+ (dd.getMonth()+1));
+log('month='+ (dd.getMonth()+1)); // for human read month must add 1
+
+
 
 // Error in getMonthGridHorCount(), outcome not correct, need to fix,
 // try to figure out how drawing-grid be draw for current month
+log('-----------------------------------------');
+log('current day index='+getWeekIndex(dd,false));
+log('current month days='+getMonthTotalDays(dd));
 log('total grid-day count='+getMonthGridHorCount(dd,true));
 
 
@@ -42,6 +47,15 @@ function getWeekIndex(date,isSundayHead) {
 
 
 /**--------------------------------------------------------------------------------------
+ * Entry Point
+ ---------------------------------------------------------------------------------------*/
+function getMonthTotalDays(date) {
+    // current month +1, date=0 means previous month last date
+    return new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+}
+
+
+/**--------------------------------------------------------------------------------------
  * Get month-grid's horizontal count, how many horizontal-line in this month-grid
  * --------------------------------------------------------------------------------------
  * Ex: 2017-Aug has 5 hor-line, 2017-Oct has 6 hor-lines
@@ -50,18 +64,16 @@ function getWeekIndex(date,isSundayHead) {
  * isSundayHead: true means first day of week is sunday, false means first day is Monday
  ---------------------------------------------------------------------------------------*/
 function getMonthGridHorCount(date,isSundayHead) {
-    var monthFirstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    log('firstDay='+monthFirstDay);
-
-    log('year='+date.getFullYear()+' month='+(date.getMonth()+1));
-    var monthTotalDays = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
-    log('monthTotalDays='+monthTotalDays);
+    var monthTotalDays = getMonthTotalDays(date);
     var oneWeekDays = 7;
-    var firstWeekDayCount = oneWeekDays-getWeekIndex(monthFirstDay,isSundayHead);
-    log('firstWeekLeft='+firstWeekDayCount);
+    // how many days we have in first week of this month
+    var firstWeekDayCount = oneWeekDays-getWeekIndex(date,isSundayHead);
 
     //----- Round a number upward to its nearest integer -----//
     //----- ex:Math.ceil(1.4)==2 -----//
+    // month's total days remove days in first week, result will arrange in following grid
+    // then result divided by 7(7days a week), and we will know how many hor-grid we need to draw
+    // +1 means first week we have and need to be added in
     return Math.ceil((monthTotalDays-firstWeekDayCount)/7)+1;
 }
 
