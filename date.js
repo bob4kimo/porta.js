@@ -47,7 +47,7 @@ function getWeekIndex(date,isSundayHead) {
 
 
 /**--------------------------------------------------------------------------------------
- * Entry Point
+ * According to ur Date() object, feed back Date()'s total days of current month
  ---------------------------------------------------------------------------------------*/
 function getMonthTotalDays(date) {
     // current month +1, date=0 means previous month last date
