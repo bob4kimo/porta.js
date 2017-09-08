@@ -19,12 +19,9 @@ log('month='+ (dd.getMonth()+1)); // for human read month must add 1
 
 
 
-// Error in getMonthGridHorCount(), outcome not correct, need to fix,
-// try to figure out how drawing-grid be draw for current month
-log('-----------------------------------------');
-log('current day index='+getWeekIndex(dd,false));
-log('current month days='+getMonthTotalDays(dd));
-log('total grid-day count='+getMonthGridHorCount(dd,true));
+// getMonthGridHorCount() fixed, now we can render the grid of current month,
+// or previous days of last month in the first week of current month
+log('total grid-day count='+getMonthGridHorCount(dd,false));
 
 
 /**--------------------------------------------------------------------------------------
