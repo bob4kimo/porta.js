@@ -2,10 +2,13 @@
 
 /**--------------------------------------------------------------------------------------
  * Entry Point
+ * --------------------------------------------------------------------------------------
+ * 1. year and month in date-picker should be selected by user
+ * http://fengyuanchen.github.io/datepicker/
+ * https://dhtmlx.com/docs/products/dhtmlxCalendar/
+ * http://demos.telerik.com/kendo-ui/datepicker/index
  ---------------------------------------------------------------------------------------*/
-// new BobDatePicker({
-//    isHeadSunday:true
-// });
+
 
 
 
