@@ -7,6 +7,10 @@
  * http://fengyuanchen.github.io/datepicker/
  * https://dhtmlx.com/docs/products/dhtmlxCalendar/
  * http://demos.telerik.com/kendo-ui/datepicker/index
+ * --------------------------------------------------------------------------------------
+ * 1. for precise layout, maybe svg-text will be good
+ * 2. already find out smallest svg format in JsTest_24.1
+ * 3. NEXT: but exported svg has fixed size only, can not change size by canvas's size
  ---------------------------------------------------------------------------------------*/
 
 
