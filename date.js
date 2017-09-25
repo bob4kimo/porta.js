@@ -11,7 +11,13 @@
  * 1. for precise layout, maybe svg-text will be good
  * 2. already find out smallest svg format in JsTest_24.1
  * 3. NEXT: but exported svg has fixed size only, can not change size by canvas's size
+ * --------------------------------------------------------------------------------------
+ * 1. svg can be resize in JsTest_24, main point is inside the svg-format
+ * 2. svg could be polygon or path, both can be resize-able in other practices
  ---------------------------------------------------------------------------------------*/
+
+
+
 
 
 
