@@ -14,6 +14,9 @@
  * --------------------------------------------------------------------------------------
  * 1. svg can be resize in JsTest_24, main point is inside the svg-format
  * 2. svg could be polygon or path, both can be resize-able in other practices
+ * 3. GIMP could be the svg exporter, open psd and export svg with path-data
+ * --------------------------------------------------------------------------------------
+ * 
  ---------------------------------------------------------------------------------------*/
 
 
