@@ -18,6 +18,8 @@
  * --------------------------------------------------------------------------------------
  * 1. svg can treat as div
  * 2. svg object can not do animation in this dependency, try css-animation
+ * 3. if css-animation works, maybe it's time for update animation-module
+ * 4. css-animation module maybe better performance and less size
  ---------------------------------------------------------------------------------------*/
 
 
