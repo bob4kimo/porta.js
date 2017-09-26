@@ -16,8 +16,12 @@
  * 2. svg could be polygon or path, both can be resize-able in other practices
  * 3. GIMP could be the svg exporter, open psd and export svg with path-data
  * --------------------------------------------------------------------------------------
- * 
+ * 1. svg can treat as div
+ * 2. svg object can not do animation in this dependency, try css-animation
  ---------------------------------------------------------------------------------------*/
+
+
+
 
 
 
